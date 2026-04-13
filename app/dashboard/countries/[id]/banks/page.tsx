@@ -1,6 +1,7 @@
 
 import axiosServices from "../../../../../utils/axiosServices";
 import {BankClient} from "./BankClient";
+export const dynamic = "force-dynamic";
 async function fetchBanks(countryCode: string) {
     const baseUrl = process.env.NEXT_PUBLIC_API_TRANSFERT_SERVICE_URL;
 

@@ -1,6 +1,7 @@
 import { OperatorClient } from "./OperatorClient";
 import axiosServices from "../../../../../utils/axiosServices";
 
+export const dynamic = "force-dynamic";
 async function fetcOperator(countryId: string) {
     const res = await axiosServices.get(
         `api/operators/countries/${countryId}`

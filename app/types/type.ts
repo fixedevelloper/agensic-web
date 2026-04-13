@@ -60,3 +60,9 @@ export interface Customer {
     phone?: string;
     email?: string;
 }
+export interface User {
+    id?: number;
+    name?: string;
+    phone?: string;
+    email?: string;
+}
