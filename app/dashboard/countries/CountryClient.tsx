@@ -56,6 +56,7 @@ export function CountryClient({
         });
     };
 
+    console.log(countries)
     return (
         <>
             <Card>
@@ -99,8 +100,8 @@ export function CountryClient({
                                     <TableCell>{country.status}</TableCell>
                                     <TableCell>
                                         <img
-                                            src={`${country.flag_url}`}
-                                            alt="flag"
+                                            src={country.flag_url}
+                                            alt={country.name}
                                             width={40}
                                             height={30}
                                         />
