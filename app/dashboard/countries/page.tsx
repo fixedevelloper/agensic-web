@@ -2,6 +2,7 @@
 import { CountryClient } from "./CountryClient";
 import axiosServices from "../../../utils/axiosServices";
 
+export const dynamic = "force-dynamic";
 // Service côté serveur (même URL, pas import direct d’axiosServices)
 async function fetchCountries() {
     const res = await axiosServices.get("api/countries");
