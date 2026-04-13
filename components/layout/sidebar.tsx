@@ -23,24 +23,24 @@ import React, { useState } from "react"; // <-- add useState
 const menuItems = [
     {
         label: "Tableau de bord",
-        href: "/",
+        href: "/dashboard",
         icon: LayoutDashboard,
         // pas de sous-menu
     },
     {
         label: "Countries",
-        href: "/countries",
+        href: "/dashboard/countries",
         icon: Globe2,
     },
     {
         label: "Utilisateurs",
-        href: "/users",
+        href: "/dashboard/users",
         icon: Users,
         // pas de sous-menu
     },
     {
         label: "Paramètres",
-        href: "/settings",
+        href: "/dashboard/settings",
         icon: Settings,
         // sous‑menu affiché uniquement quand on clique
         subItems: [
