@@ -66,3 +66,9 @@ export interface User {
     phone?: string;
     email?: string;
 }
+export interface Image {
+    id: string;
+    url: string;
+    name: string;
+    size: number;
+}

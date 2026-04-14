@@ -1,6 +1,8 @@
 import React from "react";
 
 import type { Metadata } from "next";
+import {HeaderCustomer} from "../../components/layout/customer/header-customer";
+import {BottomNavCustomer} from "../../components/layout/customer/BottomNavCustomer";
 
 export const metadata: Metadata = {
     title: "Plateforme de paiement - Afrique",
@@ -31,16 +33,16 @@ export const metadata: Metadata = {
     },
 };
 
-export default function FrontendLayout({
-                                           children,
-                                       }: {
-    children: React.ReactNode;
-}) {
+export default function CustomerLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex min-h-screen w-full items-center justify-center bg-gray-50">
-            <div className="w-full">
-                {children}
-            </div>
+        <div className="min-h-screen  w-full pb-16 md:pb-0">
+
+            <HeaderCustomer />
+
+            <main>{children}</main>
+
+            <BottomNavCustomer />
+
         </div>
     );
 }

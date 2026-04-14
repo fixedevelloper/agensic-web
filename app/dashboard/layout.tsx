@@ -4,6 +4,11 @@ import { Header } from "@/components/layout/header";
 import React from "react";
 import {SidebarProvider} from "../../components/ui/sidebar";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Plateforme de paiement - Afrique",
+}
 export default function DashboardLayout({
                                             children,
                                         }: { children: React.ReactNode }) {
