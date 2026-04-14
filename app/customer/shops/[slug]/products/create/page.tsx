@@ -103,7 +103,19 @@ export default function CreateProductPage() {
         }
     };
 
-    const categories = ["canal", "momo", "recharge", "data", "services"];
+    const categories = [
+        "Électronique & Informatique",
+        "Téléphones & Tablettes",
+        "Mode & Accessoires",
+        "Beauté & Santé",
+        "Maison & Cuisine",
+        "Meubles & Déco",
+        "Électroménager",
+        "Sport & Loisirs",
+        "Bébé & Jouets",
+        "Automobile",
+        "Services & Prestations"
+    ];
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-blue-50/50 py-10 px-4 sm:px-6 lg:px-8">

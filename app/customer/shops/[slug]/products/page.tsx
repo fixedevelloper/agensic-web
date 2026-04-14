@@ -124,7 +124,7 @@ export default function ProductListPage() {
 
                     <div className="flex gap-4">
                         <Link
-                            href={`/shops/${shopSlug}/products/create`}
+                            href={`/customer/shops/${shopSlug}/products/create`}
                             className="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700
                                        text-white font-bold py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl
                                        flex items-center gap-3 h-16 text-lg transition-all"

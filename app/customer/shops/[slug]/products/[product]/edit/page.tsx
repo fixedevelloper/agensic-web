@@ -129,7 +129,7 @@ export default function ProductPage() {
                 <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                     <div>
                         <Link
-                            href={`/shops/${shopSlug}/products`}
+                            href={`/customer/shops/${shopSlug}/products`}
                             className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-2 font-semibold"
                         >
                             ← Tous produits

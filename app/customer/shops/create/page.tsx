@@ -71,7 +71,7 @@ export default function CreateShop() {
             }
 
             toast.success("Boutique créée !");
-            router.push(`customer/shops/${data.data.slug}`); // ⚠️ Laravel retourne souvent data.data
+            router.push(`/customer/shops/${data.data.slug}`); // ⚠️ Laravel retourne souvent data.data
             router.refresh();
 
         } catch (error: any) {

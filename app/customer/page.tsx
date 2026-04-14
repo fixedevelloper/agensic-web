@@ -188,7 +188,7 @@ export default function DashboardCustomerPage() {
 
                     {/* ACTION */}
                     <Link
-                        href="/customer/shop/create"
+                        href="/customer/shops/create"
                         className="bg-gradient-to-br from-emerald-500 to-green-600 text-white p-8 rounded-3xl shadow-2xl hover:shadow-3xl transition-all"
                     >
                         <div className="flex items-center gap-3">
