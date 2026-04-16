@@ -124,7 +124,7 @@ export default function CreateProductPage() {
                 {/* Header */}
                 <div className="text-center lg:text-left">
                     <Link
-                        href={`/shops/${shopSlug}/products`}
+                        href={`/customer/shops/${shopSlug}/products`}
                         className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 font-semibold mb-2"
                     >
                         ← Retour produits
