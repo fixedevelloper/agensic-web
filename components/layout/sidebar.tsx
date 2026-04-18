@@ -2,6 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import {
+    ChevronDown,
+    LayoutDashboard,
+    Users,
+    Settings,
+    Briefcase,
+    Globe2,
+    Wallet,
+    ArrowRightLeft,
+    ShieldCheck
+} from "lucide-react";
 
 import {
     Sidebar,
@@ -17,141 +29,179 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-import { LayoutDashboard, Users, Settings, Briefcase ,Globe2} from "lucide-react";
-import React, { useState } from "react"; // <-- add useState
-
 const menuItems = [
     {
         label: "Tableau de bord",
         href: "/dashboard",
         icon: LayoutDashboard,
-        // pas de sous-menu
+        color: "text-blue-500"
     },
     {
-        label: "Countries",
+        label: "Pays & Zones",
         href: "/dashboard/countries",
         icon: Globe2,
+        color: "text-emerald-500"
     },
     {
-        label: "Utilisateurs",
+        label: "Gestion Utilisateurs",
         href: "/dashboard/users",
         icon: Users,
-        // pas de sous-menu
+        color: "text-purple-500"
+    },
+    {
+        label: "Dépôts",
+        href: "/dashboard/deposits",
+        icon: Wallet,
+        color: "text-amber-500",
+        subItems: [
+            { label: "Comptes Fiat", href: "/dashboard/deposits/fiats" },
+            { label: "Portefeuilles Crypto", href: "/dashboard/deposits/cryptos" },
+            { label: "Services USSD", href: "/dashboard/deposits/ussds" },
+        ],
+    },
+    {
+        label: "Transactions",
+        href: "/dashboard/transaction",
+        icon: ArrowRightLeft,
+        color: "text-rose-500",
+        subItems: [
+            { label: "Transferts sortants", href: "/dashboard/transfert/fiats" },
+            { label: "Échanges Crypto", href: "/dashboard/transfert/cryptos" },
+            { label: "Flux Ecommerce", href: "/dashboard/ecommerces" },
+            { label: "Facturation (Billing)", href: "/dashboard/billings" },
+        ],
     },
     {
         label: "Paramètres",
         href: "/dashboard/settings",
         icon: Settings,
-        // sous‑menu affiché uniquement quand on clique
+        color: "text-slate-500",
         subItems: [
-            { label: "Profil", href: "/dashboard/settings/profile" },
-            { label: "Sécurité", href: "/dashboard/settings/security" },
+            { label: "Mon Profil", href: "/dashboard/settings/profile" },
+            { label: "Sécurité & Accès", href: "/dashboard/settings/security" },
             { label: "Notifications", href: "/dashboard/settings/notifications" },
         ],
     },
 ];
 
-
 export function SidebarApp() {
     const pathname = usePathname();
     const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const activeParent = menuItems.find(item =>
+            item.subItems?.some(sub => pathname.startsWith(sub.href))
+        );
+        if (activeParent) setOpenMenuId(activeParent.href);
+    }, [pathname]);
 
     const toggleMenu = (id: string) => {
         setOpenMenuId(openMenuId === id ? null : id);
     };
 
     return (
-        <Sidebar collapsible="offcanvas" className="w-64 border-r bg-white shadow-sm">
-            {/* HEADER */}
-            <SidebarHeader className="border-b bg-gradient-to-b from-slate-50 to-slate-100 px-4 py-3">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                        <div className="size-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-sm">
-                            <Briefcase className="size-4 text-white" />
-                        </div>
-                        <h2 className="text-sm font-semibold tracking-tight text-slate-800">
-                            Mon Dashboard
-                        </h2>
+        <Sidebar collapsible="offcanvas" className="w-72 border-r border-slate-200 bg-slate-50/50">
+            {/* HEADER - Agrandissement du titre et de l'icône */}
+            <SidebarHeader className="p-6">
+                <div className="flex items-center gap-4 px-1">
+                    <div className="flex size-11 items-center justify-center rounded-xl bg-blue-600 shadow-lg shadow-blue-100">
+                        <Briefcase className="size-6 text-white" />
                     </div>
-
-                    <SidebarTrigger className="sm:hidden size-9 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 active:bg-slate-300 transition" />
+                    <div className="flex flex-col">
+                        <span className="text-base font-bold text-slate-900 leading-tight">Agensic Pay</span>
+                        <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Admin Space</span>
+                    </div>
                 </div>
             </SidebarHeader>
 
             {/* CONTENT */}
-            <SidebarContent className="flex-1 px-2 py-4">
+            <SidebarContent className="px-4 py-2">
                 <SidebarGroup>
-                    <SidebarMenu className="space-y-1.5">
+                    <SidebarMenu className="gap-2">
                         {menuItems.map((item) => {
                             const Icon = item.icon;
-                            const isActive = pathname === item.href;
-
-                            // Clé pour l’item qui peut avoir un sous‑menu
                             const hasSubmenu = !!item.subItems?.length;
+                            const isOpen = openMenuId === item.href;
+                            const isActive = pathname === item.href || (hasSubmenu && pathname.startsWith(item.href));
 
                             return (
-                                <React.Fragment key={item.href}>
-                                    <SidebarMenuItem>
-                                        <SidebarMenuButton
-                                            className={`group flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-all
-                        ${isActive
-                                                ? "bg-blue-600 text-white shadow-md"
-                                                : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                                            }`}
-                                            onClick={
-                                                hasSubmenu
-                                                    ? (e) => {
-                                                        // On ne veut pas activer le lien si on clique juste pour ouvrir le menu
-                                                        e.preventDefault();
-                                                        toggleMenu(item.href); // ID = href du parent
-                                                    }
-                                                    : undefined
-                                            }
-                                        >
-                                            <Link href={item.href} className="flex items-center gap-3 w-full">
-                                                <Icon
-                                                    className={`size-4 ${
-                                                        isActive ? "text-white" : "text-slate-500"
-                                                    }`}
-                                                />
-                                                <span>{item.label}</span>
+                                <SidebarMenuItem key={item.href}>
+                                    <SidebarMenuButton
+                                        render={!hasSubmenu ? <Link href="/dashboard/settings" /> : undefined}
+                                        onClick={hasSubmenu ? () => toggleMenu(item.href) : undefined}
+                                        className={`
+                                            group w-full flex items-center justify-between rounded-xl px-4 py-6 transition-all duration-200
+                                            ${isActive
+                                            ? "bg-white text-blue-700 shadow-md ring-1 ring-slate-200"
+                                            : "text-slate-600 hover:bg-white hover:shadow-sm"}
+                                        `}
+                                    >
+                                        {hasSubmenu ? (
+                                            <div className="flex items-center justify-between w-full cursor-pointer">
+                                                <div className="flex items-center gap-4">
+                                                    <div className={`p-2 rounded-lg transition-colors ${isActive ? "bg-blue-50" : "bg-slate-100 group-hover:bg-slate-200/70"}`}>
+                                                        <Icon className={`size-5 ${isActive ? "text-blue-600" : item.color}`} />
+                                                    </div>
+                                                    <span className="font-bold text-[15px]">{item.label}</span>
+                                                </div>
+                                                <ChevronDown className={`size-4 transition-transform duration-300 ${isOpen ? "rotate-180" : "opacity-40"}`} />
+                                            </div>
+                                        ) : (
+                                            <Link href={item.href} className="flex items-center gap-4">
+                                                <div className={`p-2 rounded-lg transition-colors ${isActive ? "bg-blue-600" : "bg-slate-100 group-hover:bg-slate-200/70"}`}>
+                                                    <Icon className={`size-5 ${isActive ? "text-white" : item.color}`} />
+                                                </div>
+                                                <span className="font-bold text-[15px]">{item.label}</span>
                                             </Link>
-                                        </SidebarMenuButton>
-
-                                        {/* Sous‑menu déplié au clic */}
-                                        {hasSubmenu && openMenuId === item.href && (
-                                            <SidebarMenuSub className="mt-1 space-y-0.5">
-                                                {item?.subItems?.map((subItem) => {
-                                                    const subIsActive = pathname === subItem.href;
-
-                                                    return (
-                                                        <SidebarMenuSubButton
-                                                            key={subItem.href}
-                                                            className={`px-8 py-1.5 text-xs font-medium transition-colors
-                                ${subIsActive
-                                                                ? "bg-blue-100 text-blue-800"
-                                                                : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
-                                                            }`}
-                                                        >
-                                                            <Link href={subItem.href}>{subItem.label}</Link>
-                                                        </SidebarMenuSubButton>
-                                                    );
-                                                })}
-                                            </SidebarMenuSub>
                                         )}
-                                    </SidebarMenuItem>
-                                </React.Fragment>
+                                    </SidebarMenuButton>
+
+                                    {/* SOUS-MENU AGRANDI */}
+                                    {hasSubmenu && isOpen && (
+                                        <SidebarMenuSub className="ml-7 mt-2 border-l-2 border-slate-200 pl-4 space-y-2">
+                                            {item.subItems?.map((subItem) => {
+                                                const subIsActive = pathname === subItem.href;
+                                                return (
+                                                    <SidebarMenuSubButton
+                                                        key={subItem.href}
+                                                        render={
+                                                            <Link
+                                                                href={subItem.href}
+                                                                className={`
+                py-2 text-[14px] font-medium transition-all
+                ${subIsActive
+                                                                    ? "text-blue-600 font-bold translate-x-1"
+                                                                    : "text-slate-500 hover:text-slate-900 hover:translate-x-1"}
+            `}
+                                                            />
+                                                        }
+                                                    >
+                                                        {subItem.label}
+                                                    </SidebarMenuSubButton>
+                                                );
+                                            })}
+                                        </SidebarMenuSub>
+                                    )}
+                                </SidebarMenuItem>
                             );
                         })}
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>
 
-            {/* FOOTER */}
-            <SidebarFooter className="border-t bg-slate-50 px-4 py-3">
-                <div className="flex items-center justify-between text-xs text-slate-500 font-medium tracking-wide">
-                    <span>  © {new Date().getFullYear()} - Tous droits réservés</span>
-                    <span className="text-slate-700">Agensic solution</span>
+            {/* FOOTER AGRANDI */}
+            <SidebarFooter className="p-6 border-t border-slate-100 bg-white/50">
+                <div className="flex items-center gap-4 px-1">
+                    <div className="size-10 rounded-full bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-50/50">
+                        <ShieldCheck className="size-5 text-emerald-600" />
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="text-sm font-bold text-slate-800">Support Client</span>
+                        <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-1.5 uppercase">
+                            <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                            Connecté
+                        </span>
+                    </div>
                 </div>
             </SidebarFooter>
         </Sidebar>

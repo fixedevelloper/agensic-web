@@ -23,7 +23,7 @@ export default function DashboardLayout({
             {/* Mobile sidebar toggle si tu veux plus tard */}
             <div className="flex flex-1 flex-col">
                 <Header />
-                <main className="flex-1 overflow-auto bg-muted/40 p-2 sm:p-4">
+                <main className="flex-1 overflow-auto bg-muted/40 p-2 sm:p-6">
                     {children}
                 </main>
             </div>
