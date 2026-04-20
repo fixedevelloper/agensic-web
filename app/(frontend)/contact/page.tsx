@@ -103,7 +103,7 @@ export default function ContactPage() {
                 </div>
                 <div className="md:col-span-2 space-y-2">
                   <label className="text-sm font-bold text-gray-600 px-2">Message</label>
-                  <textarea rows="5" placeholder="Comment pouvons-nous vous aider ?" className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#f4a261] outline-none transition-all"></textarea>
+                  <textarea  placeholder="Comment pouvons-nous vous aider ?" className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-[#f4a261] outline-none transition-all"></textarea>
                 </div>
                 <div className="md:col-span-2 pt-4">
                   <button className="w-full md:w-auto bg-gradient-to-r from-[#B93E1E] to-[#d65a3a] text-white px-12 py-4 rounded-2xl font-black flex items-center justify-center gap-3 shadow-xl hover:shadow-orange-200 transition-all hover:-translate-y-1">
