@@ -1,8 +1,6 @@
 import React from "react";
 
 import type { Metadata } from "next";
-import { Header } from "@/components/layout/frontend/header";
-import { WhatsAppFloating } from "@/components/modals/WhatsAppFloating";
 
 export const metadata: Metadata = {
     title: "Plateforme de paiement - Afrique",
@@ -41,9 +39,7 @@ export default function FrontendLayout({
     return (
         <div className="flex min-h-screen w-full items-center justify-center bg-gray-50">
             <div className="w-full">
-                <Header />
                 {children}
-                <WhatsAppFloating />
             </div>
         </div>
     );
