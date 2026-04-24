@@ -106,7 +106,7 @@ export default function GatewayMatrixPage() {
             <div className='flex justify-between items-center border-b pb-6'>
                 <h1 className='text-2xl font-bold flex items-center gap-2'><ShieldCheck className="text-primary" /> Matrix</h1>
                 <div className="flex gap-2">
-                    <Button variant="outline" asChild>
+                    <Button variant="outline">
                         <Link href="/dashboard/settings/gateway_matrix/add-gateways"><PlusCircle className="mr-2 h-4 w-4" /> Gateway</Link>
                     </Button>
                     <Button onClick={save} disabled={isSaving}>

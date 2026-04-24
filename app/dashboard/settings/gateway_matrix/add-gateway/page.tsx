@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Plus, Save, Trash2, Globe, Key, Settings2 } from 'lucide-react';
+import { any } from 'zod';
 
 export default function AddGatewayPage() {
   const router = useRouter();
@@ -117,7 +118,7 @@ export default function AddGatewayPage() {
               </div>
               <div className="space-y-2">
                 <Label>Type de Gateway</Label>
-                <Select value={formData.type} onValueChange={(val) => setFormData(prev => ({ ...prev, type: val }))}>
+                <Select value={formData.type} onValueChange={(val) => setFormData(prev => ({ ...prev, type: val ?? "" }))}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
