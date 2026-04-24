@@ -77,6 +77,7 @@ const menuItems = [
         icon: Settings,
         color: "text-slate-500",
         subItems: [
+            { label: "Gateways", href: "/dashboard/settings/gateway_matrix" },
             { label: "Mon Profil", href: "/dashboard/settings/profile" },
             { label: "Sécurité & Accès", href: "/dashboard/settings/security" },
             { label: "Notifications", href: "/dashboard/settings/notifications" },
