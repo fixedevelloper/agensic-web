@@ -42,10 +42,12 @@ export default function SimulationPage() {
         receiver_country: 'CM',
         gateway: null,
         currency: 'XAF',
-        relation:'',
-        source_of_funds:'',
-        motif:''
-
+        relation: '',
+        source_of_funds: '',
+        motif: '',
+        // Nouvelles propriétés pour la réponse
+        transactionReference: '',
+        transactionDetails: null as any // Contiendra l'objet "data" de ta réponse JSON
     });
 
     // --- FETCH DATA ---
@@ -178,14 +180,8 @@ export default function SimulationPage() {
     const selectedSender = senders.find((s:any) => s.id === data.sender)as Sender | undefined;;
     const selectedBeneficiary = beneficiaries.find(b => b.id === data.beneficiary)as any | undefined;;
     const handleFinalConfirm = async () => {
-        console.log("Config actuelle:", { baseUrl, session: session?.user?.id });
         if (!baseUrl) {
-            toast.error("L'URL de l'API est manquante (Variable d'env)");
-            return;
-        }
-        // Vérification de sécurité avant l'envoi
-        if (!data.sender || !data.beneficiary || !data.amount) {
-            toast.error("Données de transaction incomplètes");
+            toast.error("L'URL de l'API est manquante");
             return;
         }
 
@@ -207,27 +203,35 @@ export default function SimulationPage() {
                     sender_id: data.sender,
                     beneficiary_id: data.beneficiary,
                     receiver_country: data.receiver_country,
-
-                    // Données de conformité
                     origin_fond: data.source_of_funds,
-                    motif_send: data.motif, // On utilise la sélection "Motif" de l'étape 6
+                    motif_send: data.motif,
                     relation: data.relation,
-
-                    // Note automatique pour le journal
                     note: `Transfert de ${data.amount} via Simulateur`,
                 })
             });
 
             const result = await response.json();
 
-            if (response.ok && result.success) {
-                toast.success("Transfert réussi !", { id: loadingToast });
-                // Redirection ou mise à jour de l'UI
-                setStep(6); // Une étape de succès final par exemple
+            // Correction de la condition : on vérifie result.status
+            if (response.ok && result.status === "success") {
+                toast.success(result.message || "Transfert réussi !", { id: loadingToast });
+
+                // Sauvegarder les infos de la transaction pour l'écran de succès
+                setData(prev => ({
+                    ...prev,
+                    transactionReference: result.data.reference,
+                    transactionDetails: result.data
+                }));
+
+                setStep(8); // Passage à l'étape de succès (reçu)
             } else {
-                throw new Error(result.message || "Une erreur est survenue");
+                // Gestion des erreurs de validation Laravel (422) ou autres
+                const errorMsg = result.errors
+                    ? Object.values(result.errors).flat()[0]
+                    : (result.message || "Une erreur est survenue");
+                throw new Error(errorMsg);
             }
-        } catch (error: any) {
+        } catch (error:any) {
             toast.error(error.message, { id: loadingToast });
             console.error("Erreur de confirmation:", error);
         }
@@ -244,7 +248,7 @@ export default function SimulationPage() {
                         <h1 className="text-xl font-black tracking-tight">AGENSIC SIMULATOR</h1>
                     </div>
                     <div className="flex gap-1.5">
-                        {[1, 2, 3, 4, 5,6,7].map((i) => (
+                        {[1, 2, 3, 4, 5,6,7,8].map((i) => (
                             <div key={i} className={`h-1.5 w-8 rounded-full transition-all ${step >= i ? 'bg-primary' : 'bg-slate-200'}`} />
                         ))}
                     </div>
@@ -663,7 +667,46 @@ export default function SimulationPage() {
                                 </div>
                             </div>
                         )}
+                        {step === 8 && data.transactionDetails && (
+                            <div className="space-y-6 animate-in fade-in zoom-in duration-300">
+                                <div className="text-center">
+                                    <div className="h-20 w-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <CheckCircle2 className="h-12 w-12" />
+                                    </div>
+                                    <h2 className="text-2xl font-black text-slate-900">Transfert Initié !</h2>
+                                    <p className="text-slate-500">Référence: <span className="font-mono font-bold text-primary">{data.transactionDetails.reference}</span></p>
+                                </div>
 
+                                <div className="bg-slate-50 rounded-[2rem] p-6 border border-slate-100">
+                                    <div className="flex justify-between mb-4">
+                                        <span className="text-slate-500 text-sm">Montant envoyé</span>
+                                        <span className="font-bold">{data.transactionDetails.financials.display}</span>
+                                    </div>
+                                    <div className="flex justify-between mb-4">
+                                        <span className="text-slate-500 text-sm">Bénéficiaire</span>
+                                        <span className="font-bold">{data.transactionDetails.parties.beneficiary.name}</span>
+                                    </div>
+                                    <div className="flex justify-between mb-4">
+                                        <span className="text-slate-500 text-sm">Statut</span>
+                                        <Badge style={{ backgroundColor: data.transactionDetails.status.color }} className="text-white border-none">
+                                            {data.transactionDetails.status.label}
+                                        </Badge>
+                                    </div>
+                                    <Separator className="my-4" />
+                                    <div className="text-center">
+                                        <p className="text-[10px] text-slate-400 uppercase font-black">Date de l'opération</p>
+                                        <p className="text-sm font-medium">{data.transactionDetails.dates.created_at}</p>
+                                    </div>
+                                </div>
+
+                                <Button
+                                    onClick={() => window.location.reload()}
+                                    className="w-full h-14 rounded-xl font-bold bg-slate-900"
+                                >
+                                    Faire un nouveau transfert
+                                </Button>
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </main>
