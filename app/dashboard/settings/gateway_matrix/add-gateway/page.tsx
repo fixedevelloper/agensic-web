@@ -69,7 +69,7 @@ export default function AddGatewayPage() {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_TRANSFERT_SERVICE_URL}/api/gateways`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' ,'Accept': 'application/json'},
         body: JSON.stringify(payload)
       });
 

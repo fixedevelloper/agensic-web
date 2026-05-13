@@ -88,7 +88,7 @@ export default function GatewayMatrixPage() {
         try {
             await fetch(`${API_BASE}/api/gateway-matrix`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json','Accept': 'application/json', },
                 body: JSON.stringify({ matrix })
             });
             alert('Configuration enregistrée !');
@@ -107,7 +107,7 @@ export default function GatewayMatrixPage() {
                 <h1 className='text-2xl font-bold flex items-center gap-2'><ShieldCheck className="text-primary" /> Matrix</h1>
                 <div className="flex gap-2">
                     <Button variant="outline">
-                        <Link href="/dashboard/settings/gateway_matrix/add-gateways"><PlusCircle className="mr-2 h-4 w-4" /> Gateway</Link>
+                        <Link href="/dashboard/settings/gateway_matrix/add-gateway"><PlusCircle className="mr-2 h-4 w-4" /> Gateway</Link>
                     </Button>
                     <Button onClick={save} disabled={isSaving}>
                         {isSaving ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : <Save className="mr-2 h-4 w-4" />} 
