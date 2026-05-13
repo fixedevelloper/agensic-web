@@ -50,12 +50,15 @@ export interface PaymentLink {
     cancelled_at?: string;
 }
 export interface Sender {
+    id?: number;
+    account_type?:string;
     name?: string;
     phone?: string;
     email?: string;
 }
 
 export interface Customer {
+    id?: number;
     name?: string;
     phone?: string;
     email?: string;

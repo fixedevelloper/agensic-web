@@ -65,6 +65,7 @@ const menuItems = [
         icon: ArrowRightLeft,
         color: "text-rose-500",
         subItems: [
+            { label: "Simulation", href: "/dashboard/transfert/simulation" },
             { label: "Transferts sortants", href: "/dashboard/transfert/fiats" },
             { label: "Échanges Crypto", href: "/dashboard/transfert/cryptos" },
             { label: "Flux Ecommerce", href: "/dashboard/ecommerces" },

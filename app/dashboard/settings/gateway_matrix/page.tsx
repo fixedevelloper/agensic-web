@@ -148,11 +148,17 @@ export default function GatewayMatrixPage() {
                         <tbody className="divide-y">
                             {filteredCountries.map((c) => (
                                 <tr key={`row-${c.iso}`} className='hover:bg-slate-50/50 transition-colors'>
-                                    <td className='p-4 font-semibold sticky left-0 bg-white z-10 border-r'>
-                                        <div className="flex items-center justify-between">
+                                    <td className="p-0 font-semibold sticky left-0 bg-white z-10 border-r">
+                                        <Link
+                                            href={`/dashboard/settings/gateway_matrix/${c.iso}/configuration`}
+                                            className="flex items-center justify-between w-full h-full p-4 text-primary hover:bg-slate-50 transition-colors"
+                                        >
                                             <span>{c.name}</span>
-                                            <Badge variant="secondary" className="text-[10px]">{c.iso}</Badge>
-                                        </div>
+                                            {/* On utilise un simple span stylisé pour éviter le conflit HTML du Badge */}
+                                            <span className="ml-2 px-2 py-0.5 text-[10px] font-bold bg-slate-100 text-slate-600 rounded uppercase">
+            {c.iso}
+        </span>
+                                        </Link>
                                     </td>
                                  {gateways.map((g) => {
     const countryKey = c.iso; // ex: "CM"

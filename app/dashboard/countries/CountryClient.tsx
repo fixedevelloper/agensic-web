@@ -122,6 +122,7 @@ export function CountryClient({ countries }: CountryClientProps) {
                                     <TableRow key={country.id} className="hover:bg-slate-50/50 transition-colors">
                                         <TableCell className="font-mono text-xs text-slate-400">#{country.id}</TableCell>
                                         <TableCell>
+
                                             <div className="w-10 h-7 rounded-md overflow-hidden border border-slate-200 shadow-sm bg-slate-100">
                                                 <img
                                                     src={country.flag_url || `https://flagcdn.com/w80/${country.iso?.toLowerCase()}.png`}
@@ -130,6 +131,7 @@ export function CountryClient({ countries }: CountryClientProps) {
                                                     onError={(e) => { (e.target as HTMLImageElement).src = 'https://flagcdn.com/w80/un.png'; }}
                                                 />
                                             </div>
+
                                         </TableCell>
                                         <TableCell className="font-bold text-slate-700">{country.name}</TableCell>
                                         <TableCell>
